@@ -33,7 +33,7 @@ conn.connect((err) =>{
   console.log('Mysql Connected...');
 });
 
-let UPLOAD_LOCATION = path.join(__dirname, 'images');
+let UPLOAD_LOCATION = path.join(__dirname, 'public','images');
 fs.mkdirsSync(UPLOAD_LOCATION); 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -73,11 +73,11 @@ app.post('/save',upload.single('userPic'),(req, res) => {
 
 
 //const upload = multer({ storage : storage }).array('userPic');
-//winston.log('info', 'Hello log files!', {
-//  path: req.file.filename, product_name: req.body.product_name, product_price: req.body
-//})
+winston.log('info', 'Hello log files!', {
+  path: req.file.filename, product_name: req.body.product_name, product_price: req.body.product_price
+})
 //var imageData = fs.readFileSync(req.userPic.path);
-  let data = {product_name: req.body.product_name, product_price: req.body.product_price};
+  let data = {product_name: req.body.product_name, product_price: req.body.product_price,path: req.file.filename};
   let sql = "INSERT INTO product SET ?";
   let query = conn.query(sql, data,(err, results) => {
     if(err) throw err;
